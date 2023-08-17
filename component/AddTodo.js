@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Image,
+  Keyboard,
   Platform,
   StyleSheet,
   TextInput,
@@ -9,14 +10,19 @@ import {
   View,
 } from "react-native";
 
-function AddTodo() {
+function AddTodo({onInsert}) {
   const [text, setText] = useState("");
-  const whitePlusButton = require("./picture/icons/add_white/add_white.png");
+  const whitePlusButton = require("../picture/icons/add_white/add_white.png");
   const button = (
     <View style={styles.buttonStyle}>
       <Image source={whitePlusButton} />
     </View>
   );
+  const onPress = () =>{
+    onInsert(text);
+    setText('');
+    Keyboard.dismiss();
+  }
   console.log(text);
   return (
     <View style={styles.block}>
@@ -25,12 +31,13 @@ function AddTodo() {
         style={styles.input}
         value={text}
         onChangeText={setText}
+        returnKeyType="done"
       />
       {Platform.select({
-        ios: <TouchableOpacity activeOpacity={0.5}>{button}</TouchableOpacity>,
+        ios: <TouchableOpacity activeOpacity={0.5} onPress={onPress}>{button}</TouchableOpacity>,
         android: (
           <View style={styles.circleWrapper}>
-            <TouchableNativeFeedback>{button}</TouchableNativeFeedback>
+            <TouchableNativeFeedback onPress={onPress}>{button}</TouchableNativeFeedback>
           </View>
         ),
       })}

@@ -2,7 +2,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 function Empty() {
-    const source = require('./picture/images/young_and_happy.png')
+    const source = require('../picture/images/young_and_happy.png')
   return (
     <View style={styles.block}>
     <Image source={source} style={styles.image} />
