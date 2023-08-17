@@ -1,9 +1,26 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function TodoItem({ id, text, done, onToggle,onRemove }) {
   const checkImg = require("../picture/icons/check_white/check_white.png");
+  const remove = () =>{
+    Alert.alert(
+        '삭제',
+        '정말로 삭제하시겠습니까?',
+        [
+            {text: '취소', onPress: () => {}, style: 'cancel'},
+            {text: '삭제', onPress : () => {
+                onRemove(id)
+            }, style: 'destructive'}
+        ],
+        {
+            cancelable: true,
+            onDismiss: () => {}
+        }
+    )
+  }
+
   return (
     <View style={styles.item}>
       {/* onPress={onToggle(id)} 형식으로 작성하면 렌더링마다 호출되고 리렌더링하고 결국 에러를 부른다. */}
@@ -14,7 +31,7 @@ function TodoItem({ id, text, done, onToggle,onRemove }) {
       </TouchableOpacity>
       <Text style={[styles.text, done && styles.lineThrough]}>{text}</Text>
       {done ? (
-        <TouchableOpacity onPress={()=>onRemove(id)}>
+        <TouchableOpacity onPress={remove}>
           <Icon name="delete" size={32} color="red" />
         </TouchableOpacity>
       ) : (
